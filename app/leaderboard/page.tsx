@@ -17,7 +17,6 @@ interface LeaderboardEntry {
 export default function LeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<"all" | "victory" | "failed">("all")
 
   useEffect(() => {
     const leaderboardRef = ref(database, "leaderboard")
@@ -31,18 +30,9 @@ export default function LeaderboardPage() {
           ...(value as Omit<LeaderboardEntry, "id">),
         }))
 
-        // Sort: Victory first (by time), then by rounds completed (desc), then by time (asc)
+        // Sort: By rounds completed (desc), then by time (asc - faster is better)
         entries.sort((a, b) => {
-          // Victory players first
-          if (a.isVictory && !b.isVictory) return -1
-          if (!a.isVictory && b.isVictory) return 1
-
-          // Both victory - sort by time (faster is better)
-          if (a.isVictory && b.isVictory) {
-            return a.timeInSeconds - b.timeInSeconds
-          }
-
-          // Both failed - sort by rounds completed (more is better)
+          // Sort by rounds completed (more is better)
           if (a.roundsCompleted !== b.roundsCompleted) {
             return b.roundsCompleted - a.roundsCompleted
           }
@@ -67,12 +57,6 @@ export default function LeaderboardPage() {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
   }
 
-  const filteredLeaderboard = leaderboard.filter((entry) => {
-    if (filter === "victory") return entry.isVictory
-    if (filter === "failed") return !entry.isVictory
-    return true
-  })
-
   const getRankIcon = (index: number) => {
     if (index === 0) return "🥇"
     if (index === 1) return "🥈"
@@ -88,46 +72,12 @@ export default function LeaderboardPage() {
           <p className="text-xl text-foreground/70">Những người chơi xuất sắc nhất</p>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex justify-center gap-4 mb-8">
-          <button
-            onClick={() => setFilter("all")}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              filter === "all"
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border/30 text-foreground hover:bg-card/80"
-            }`}
-          >
-            Tất Cả
-          </button>
-          <button
-            onClick={() => setFilter("victory")}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              filter === "victory"
-                ? "bg-emerald-600 text-white"
-                : "bg-card border border-border/30 text-foreground hover:bg-card/80"
-            }`}
-          >
-            🎉 Chiến Thắng
-          </button>
-          <button
-            onClick={() => setFilter("failed")}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              filter === "failed"
-                ? "bg-red-600 text-white"
-                : "bg-card border border-border/30 text-foreground hover:bg-card/80"
-            }`}
-          >
-            💔 Thất Bại
-          </button>
-        </div>
-
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
             <p className="mt-4 text-foreground/70">Đang tải dữ liệu...</p>
           </div>
-        ) : filteredLeaderboard.length === 0 ? (
+        ) : leaderboard.length === 0 ? (
           <div className="text-center py-12 bg-card rounded-lg border border-border/30">
             <p className="text-xl text-foreground/70">Chưa có kết quả nào</p>
             <p className="text-foreground/50 mt-2">Hãy là người đầu tiên chơi game!</p>
@@ -151,7 +101,7 @@ export default function LeaderboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {filteredLeaderboard.map((entry, index) => (
+                {leaderboard.map((entry, index) => (
                   <tr
                     key={entry.id}
                     className={`border-b border-border/20 hover:bg-background/30 transition-colors ${
