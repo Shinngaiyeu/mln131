@@ -5,7 +5,7 @@ export default function Page7() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
             <div className="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold mb-4">
-              Trang 7
+              Trang 6
             </div>
             <h1 className="text-5xl font-bold text-foreground mb-6">Tổng Kết: Chủ Nghĩa Xã Hội Là Tương Lai Tất Yếu</h1>
             <p className="text-xl text-foreground/60">Những bài học và hướng đi tương lai</p>

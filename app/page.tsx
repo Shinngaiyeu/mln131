@@ -78,18 +78,13 @@ export default function Home() {
               },
               {
                 num: "06",
-                title: "Cơ Cấu Xã Hội",
-                desc: "Liên minh giai cấp",
-              },
-              {
-                num: "07",
                 title: "Tổng Kết",
                 desc: "Tương lai tất yếu",
               },
             ].map((topic, idx) => (
               <div key={idx} className="group">
                 <a
-                  href={`/page${idx === 6 ? 7 : idx + 1}`}
+                  href={`/page${idx === 5 ? 7 : idx + 1}`}
                   className="block p-6 rounded-lg bg-card border border-border/30 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/20"
                 >
                   <div className="text-4xl font-bold text-primary/50 group-hover:text-primary transition-colors mb-2">

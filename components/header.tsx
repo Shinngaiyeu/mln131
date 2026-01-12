@@ -13,7 +13,6 @@ export default function Header() {
     { href: "/page3", label: "Đặc Trưng CNXH" },
     { href: "/page4", label: "Thời Kỳ Quá Độ" },
     { href: "/page5", label: "Ý Nghĩa Thực Tiễn" },
-    { href: "/page6", label: "Cơ Cấu Xã Hội" },
     { href: "/page7", label: "Tổng Kết" },
     { href: "/gallery", label: "Thư Viện" },
     { href: "/game", label: "Trò Chơi" },

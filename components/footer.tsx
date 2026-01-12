@@ -48,11 +48,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/page6" className="hover:text-primary transition-colors">
-                  Cơ Cấu Xã Hội
-                </Link>
-              </li>
-              <li>
                 <Link href="/page7" className="hover:text-primary transition-colors">
                   Tổng Kết
                 </Link>
