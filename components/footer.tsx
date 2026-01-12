@@ -17,22 +17,22 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">Nội Dung Chính</h4>
             <ul className="space-y-2 text-sm text-foreground/70">
               <li>
-                <Link href="/page1" className="hover:text-primary transition-colors">
+                <Link href="/ly-luan" className="hover:text-primary transition-colors">
                   Lý Luận Sáng Lập
                 </Link>
               </li>
               <li>
-                <Link href="/page2" className="hover:text-primary transition-colors">
+                <Link href="/su-thinh-vuong" className="hover:text-primary transition-colors">
                   Sự Thịnh Vượng CNTB
                 </Link>
               </li>
               <li>
-                <Link href="/page3" className="hover:text-primary transition-colors">
+                <Link href="/dac-trung-cnxh" className="hover:text-primary transition-colors">
                   Đặc Trưng CNXH
                 </Link>
               </li>
               <li>
-                <Link href="/page4" className="hover:text-primary transition-colors">
+                <Link href="/thoi-ky-qua-do" className="hover:text-primary transition-colors">
                   Thời Kỳ Quá Độ
                 </Link>
               </li>
@@ -43,12 +43,12 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">Thêm Nội Dung</h4>
             <ul className="space-y-2 text-sm text-foreground/70">
               <li>
-                <Link href="/page5" className="hover:text-primary transition-colors">
+                <Link href="/y-nghia-thuc-tien" className="hover:text-primary transition-colors">
                   Ý Nghĩa Thực Tiễn
                 </Link>
               </li>
               <li>
-                <Link href="/page7" className="hover:text-primary transition-colors">
+                <Link href="/tong-ket" className="hover:text-primary transition-colors">
                   Tổng Kết
                 </Link>
               </li>

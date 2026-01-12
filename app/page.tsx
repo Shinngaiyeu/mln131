@@ -55,36 +55,42 @@ export default function Home() {
                 num: "01",
                 title: "Lý Luận Sáng Lập",
                 desc: "Từ viễn tưởng đến khoa học",
+                href: "/ly-luan",
               },
               {
                 num: "02",
                 title: "Sự Thịnh Vượng",
                 desc: "Tại sao CNTB vẫn giàu?",
+                href: "/su-thinh-vuong",
               },
               {
                 num: "03",
                 title: "Đặc Trưng CNXH",
                 desc: "Sáu đặc trưng bản chất",
+                href: "/dac-trung-cnxh",
               },
               {
                 num: "04",
                 title: "Thời Kỳ Quá Độ",
                 desc: "Con đường hiện thực hóa",
+                href: "/thoi-ky-qua-do",
               },
               {
                 num: "05",
                 title: "Ý Nghĩa Thực Tiễn",
                 desc: "Đối với Việt Nam hiện nay",
+                href: "/y-nghia-thuc-tien",
               },
               {
                 num: "06",
                 title: "Tổng Kết",
                 desc: "Tương lai tất yếu",
+                href: "/tong-ket",
               },
             ].map((topic, idx) => (
               <div key={idx} className="group">
                 <a
-                  href={`/page${idx === 5 ? 7 : idx + 1}`}
+                  href={topic.href}
                   className="block p-6 rounded-lg bg-card border border-border/30 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/20"
                 >
                   <div className="text-4xl font-bold text-primary/50 group-hover:text-primary transition-colors mb-2">

@@ -8,12 +8,12 @@ export default function Header() {
 
   const links = [
     { href: "/", label: "Trang Chủ" },
-    { href: "/page1", label: "Lý Luận" },
-    { href: "/page2", label: "Sự Thịnh Vượng" },
-    { href: "/page3", label: "Đặc Trưng CNXH" },
-    { href: "/page4", label: "Thời Kỳ Quá Độ" },
-    { href: "/page5", label: "Ý Nghĩa Thực Tiễn" },
-    { href: "/page7", label: "Tổng Kết" },
+    { href: "/ly-luan", label: "Lý Luận" },
+    { href: "/su-thinh-vuong", label: "Sự Thịnh Vượng" },
+    { href: "/dac-trung-cnxh", label: "Đặc Trưng CNXH" },
+    { href: "/thoi-ky-qua-do", label: "Thời Kỳ Quá Độ" },
+    { href: "/y-nghia-thuc-tien", label: "Ý Nghĩa Thực Tiễn" },
+    { href: "/tong-ket", label: "Tổng Kết" },
     { href: "/gallery", label: "Thư Viện" },
     { href: "/game", label: "Trò Chơi" },
     { href: "/leaderboard", label: "Xếp Hạng" },
