@@ -1,13 +1,23 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Playfair_Display, Lora } from "next/font/google"
+import { Inter, Be_Vietnam_Pro } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif" })
-const lora = Lora({ subsets: ["latin"], variable: "--font-serif-alt" })
+const inter = Inter({ 
+  subsets: ["latin", "vietnamese"], 
+  variable: "--font-sans",
+  display: "swap"
+})
+
+const beVietnam = Be_Vietnam_Pro({ 
+  subsets: ["latin", "vietnamese"], 
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-vietnamese",
+  display: "swap"
+})
 
 export const metadata: Metadata = {
   title: "Chủ Nghĩa Xã Hội - Tất Yếu Lịch Sử",
@@ -21,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="vi">
-      <body className="font-sans antialiased bg-background text-foreground">
+    <html lang="vi" className={`${inter.variable} ${beVietnam.variable}`}>
+      <body className="font-vietnamese antialiased bg-background text-foreground">
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
