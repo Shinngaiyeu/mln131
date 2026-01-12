@@ -8,6 +8,8 @@ interface GameOverProps {
   currentQuestion: number
   totalQuestions: number
   onReset: () => void
+  playerName: string
+  elapsedTime: number
 }
 
 const statLabels = {
@@ -16,7 +18,13 @@ const statLabels = {
   knowledge: "Tri Thức",
 }
 
-export default function GameOver({ failedStat, stats, currentQuestion, totalQuestions, onReset }: GameOverProps) {
+export default function GameOver({ failedStat, stats, currentQuestion, totalQuestions, onReset, playerName, elapsedTime }: GameOverProps) {
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-card/30 px-4">
       <div className="max-w-2xl w-full text-center">
@@ -24,6 +32,9 @@ export default function GameOver({ failedStat, stats, currentQuestion, totalQues
           <div className="text-6xl mb-4">💔</div>
           <h1 className="text-5xl font-bold text-foreground mb-2">Xã Hội Đã Sụp Đổ</h1>
           <p className="text-xl text-foreground/70">
+            Rất tiếc, <span className="text-primary font-bold">{playerName}</span>!
+          </p>
+          <p className="text-lg text-foreground/70">
             {failedStat && statLabels[failedStat]} của xã hội đã đổ xuống 0. Nền tảng xã hội không còn!
           </p>
         </div>
@@ -31,6 +42,9 @@ export default function GameOver({ failedStat, stats, currentQuestion, totalQues
         <div className="bg-card border border-border/30 rounded-lg p-8 mb-8 space-y-6">
           <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4">
             <p className="text-lg font-bold text-red-400">Lý do thất bại: {failedStat && statLabels[failedStat]} = 0</p>
+            <p className="text-foreground/70 mt-2">
+              Thời gian: <span className="font-mono font-bold">{formatTime(elapsedTime)}</span>
+            </p>
           </div>
 
           <div>
@@ -64,12 +78,20 @@ export default function GameOver({ failedStat, stats, currentQuestion, totalQues
           </p>
         </div>
 
-        <button
-          onClick={onReset}
-          className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg hover:opacity-90 transition-opacity"
-        >
-          Thử Lại
-        </button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={onReset}
+            className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Thử Lại
+          </button>
+          <a
+            href="/leaderboard"
+            className="px-8 py-4 bg-card border border-border/30 text-foreground font-bold text-lg rounded-lg hover:bg-card/80 transition-colors inline-block"
+          >
+            🏆 Bảng Xếp Hạng
+          </a>
+        </div>
       </div>
     </div>
   )

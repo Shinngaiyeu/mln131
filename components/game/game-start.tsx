@@ -2,14 +2,18 @@
 
 interface GameStartProps {
   onStart: () => void
+  playerName: string
 }
 
-export default function GameStart({ onStart }: GameStartProps) {
+export default function GameStart({ onStart, playerName }: GameStartProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-card/30 px-4">
       <div className="max-w-2xl w-full text-center">
         <h1 className="text-5xl sm:text-6xl font-bold text-foreground mb-6">The Architect</h1>
-        <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-8">Socialist Dream</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">Socialist Dream</h2>
+        <p className="text-xl text-foreground/70 mb-8">
+          Xin chào, <span className="text-primary font-bold">{playerName}</span>!
+        </p>
 
         <div className="bg-card border border-border/30 rounded-lg p-8 mb-8 text-left space-y-6">
           <div>
@@ -59,12 +63,20 @@ export default function GameStart({ onStart }: GameStartProps) {
           </div>
         </div>
 
-        <button
-          onClick={onStart}
-          className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg hover:opacity-90 transition-opacity"
-        >
-          Bắt Đầu Trò Chơi
-        </button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={onStart}
+            className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Bắt Đầu Trò Chơi
+          </button>
+          <a
+            href="/leaderboard"
+            className="px-8 py-4 bg-card border border-border/30 text-foreground font-bold text-lg rounded-lg hover:bg-card/80 transition-colors inline-block"
+          >
+            🏆 Bảng Xếp Hạng
+          </a>
+        </div>
       </div>
     </div>
   )

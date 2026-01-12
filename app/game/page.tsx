@@ -1,14 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
+import { ref, push, serverTimestamp } from "firebase/database"
+import { database } from "@/lib/firebase"
 import GameStats from "@/components/game/game-stats"
 import GameQuestion from "@/components/game/game-question"
 import GameStart from "@/components/game/game-start"
 import GameOver from "@/components/game/game-over"
 import GameVictory from "@/components/game/game-victory"
+import GameNameInput from "@/components/game/game-name-input"
 import { questions } from "@/lib/game-data"
 
-export type GameState = "start" | "playing" | "game_over" | "victory"
+export type GameState = "name_input" | "start" | "playing" | "game_over" | "victory"
 
 export interface Stats {
   economy: number
@@ -17,7 +20,8 @@ export interface Stats {
 }
 
 export default function GamePage() {
-  const [gameState, setGameState] = useState<GameState>("start")
+  const [gameState, setGameState] = useState<GameState>("name_input")
+  const [playerName, setPlayerName] = useState<string>("")
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [stats, setStats] = useState<Stats>({
     economy: 25,
@@ -25,12 +29,52 @@ export default function GamePage() {
     knowledge: 25,
   })
   const [failedStat, setFailedStat] = useState<keyof Stats | null>(null)
+  const [startTime, setStartTime] = useState<number>(0)
+  const [elapsedTime, setElapsedTime] = useState<number>(0)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Timer effect
+  useEffect(() => {
+    if (gameState === "playing" && startTime > 0) {
+      timerRef.current = setInterval(() => {
+        setElapsedTime(Math.floor((Date.now() - startTime) / 1000))
+      }, 1000)
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+    }
+  }, [gameState, startTime])
+
+  const handleNameSubmit = (name: string) => {
+    setPlayerName(name)
+    setGameState("start")
+  }
 
   const handleStartGame = () => {
     setGameState("playing")
     setCurrentQuestionIndex(0)
     setStats({ economy: 25, society: 25, knowledge: 25 })
     setFailedStat(null)
+    setStartTime(Date.now())
+    setElapsedTime(0)
+  }
+
+  const saveResultToFirebase = async (roundsCompleted: number, timeInSeconds: number, isVictory: boolean) => {
+    try {
+      const leaderboardRef = ref(database, "leaderboard")
+      await push(leaderboardRef, {
+        playerName,
+        roundsCompleted,
+        timeInSeconds,
+        isVictory,
+        timestamp: serverTimestamp(),
+      })
+    } catch (error) {
+      console.error("Error saving result to Firebase:", error)
+    }
   }
 
   const handleAnswer = (optionId: string) => {
@@ -55,12 +99,28 @@ export default function GamePage() {
       ) as keyof Stats
       setFailedStat(failed)
       setGameState("game_over")
+      
+      // Stop timer and save result
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+      const finalTime = Math.floor((Date.now() - startTime) / 1000)
+      setElapsedTime(finalTime)
+      saveResultToFirebase(currentQuestionIndex + 1, finalTime, false)
       return
     }
 
     // Check win condition
     if (currentQuestionIndex >= questions.length - 1) {
       setGameState("victory")
+      
+      // Stop timer and save result
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+      const finalTime = Math.floor((Date.now() - startTime) / 1000)
+      setElapsedTime(finalTime)
+      saveResultToFirebase(questions.length, finalTime, true)
       return
     }
 
@@ -73,18 +133,40 @@ export default function GamePage() {
     setCurrentQuestionIndex(0)
     setStats({ economy: 25, society: 25, knowledge: 25 })
     setFailedStat(null)
+    setStartTime(Date.now())
+    setElapsedTime(0)
+  }
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
   }
 
   const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100
 
   return (
     <div className="w-full min-h-screen bg-background">
-      {gameState === "start" && <GameStart onStart={handleStartGame} />}
+      {gameState === "name_input" && <GameNameInput onSubmit={handleNameSubmit} />}
+      
+      {gameState === "start" && <GameStart onStart={handleStartGame} playerName={playerName} />}
 
       {gameState === "playing" && (
         <div className="py-8">
           <GameStats stats={stats} />
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Timer and Player Info */}
+            <div className="flex justify-between items-center mb-4 p-4 bg-card rounded-lg border border-border/30">
+              <div className="flex items-center gap-2">
+                <span className="text-foreground/60">Người chơi:</span>
+                <span className="font-bold text-primary">{playerName}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-foreground/60">Thời gian:</span>
+                <span className="font-mono font-bold text-primary">{formatTime(elapsedTime)}</span>
+              </div>
+            </div>
+            
             {/* Progress bar */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-2">
@@ -115,10 +197,20 @@ export default function GamePage() {
           currentQuestion={currentQuestionIndex + 1}
           totalQuestions={questions.length}
           onReset={handleReset}
+          playerName={playerName}
+          elapsedTime={elapsedTime}
         />
       )}
 
-      {gameState === "victory" && <GameVictory stats={stats} totalQuestions={questions.length} onReset={handleReset} />}
+      {gameState === "victory" && (
+        <GameVictory 
+          stats={stats} 
+          totalQuestions={questions.length} 
+          onReset={handleReset}
+          playerName={playerName}
+          elapsedTime={elapsedTime}
+        />
+      )}
     </div>
   )
 }

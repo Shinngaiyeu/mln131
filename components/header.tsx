@@ -16,6 +16,7 @@ export default function Header() {
     { href: "/page7", label: "Tổng Kết" },
     { href: "/gallery", label: "Thư Viện" },
     { href: "/game", label: "Trò Chơi" },
+    { href: "/leaderboard", label: "Xếp Hạng" },
   ]
 
   return (
