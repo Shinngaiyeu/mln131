@@ -12,13 +12,6 @@ export default function Page3() {
           </div>
 
           <div className="prose prose-invert max-w-none space-y-8 text-foreground/80">
-            <div className="w-full rounded-lg overflow-hidden mb-8">
-              <img
-                src="/socialist-society-characteristics-equality-workers.jpg"
-                alt="Đặc trưng chủ nghĩa xã hội"
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
 
             <section>
               <h2 className="text-3xl font-bold text-foreground mb-4">3.1. CNXH Là Kết Quả Của Khoa Học</h2>
