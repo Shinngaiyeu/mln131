@@ -4,9 +4,7 @@ export default function Page2() {
       <section className="py-20 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
-            <div className="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-semibold mb-4">
-              Trang 2
-            </div>
+            
             <h1 className="text-5xl font-bold text-foreground mb-6">Giải Mã Sự Giàu Có Của Chủ Nghĩa Tư Bản</h1>
             <p className="text-xl text-foreground/60">Vì sao tính tất yếu vẫn tồn tại?</p>
           </div>
