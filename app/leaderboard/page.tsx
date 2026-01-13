@@ -118,15 +118,6 @@ export default function LeaderboardPage() {
                             <p className="font-bold text-foreground truncate text-lg">{entry.playerName}</p>
                             <p className="text-primary font-mono text-sm">{entry.roundsCompleted}/30 vòng</p>
                             <p className="text-foreground/60 font-mono text-xs">{formatTime(entry.timeInSeconds)}</p>
-                            {entry.isVictory ? (
-                              <span className="inline-block mt-2 px-2 py-0.5 rounded-full text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                                🎉 Thắng
-                              </span>
-                            ) : (
-                              <span className="inline-block mt-2 px-2 py-0.5 rounded-full text-xs bg-red-500/20 text-red-400 border border-red-500/30">
-                                💔 Thua
-                              </span>
-                            )}
                           </div>
                           {/* Podium Block */}
                           <div 
@@ -174,7 +165,6 @@ export default function LeaderboardPage() {
                       <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Người Chơi</th>
                       <th className="px-6 py-4 text-center text-sm font-semibold text-foreground">Vòng</th>
                       <th className="px-6 py-4 text-center text-sm font-semibold text-foreground">Thời Gian</th>
-                      <th className="px-6 py-4 text-center text-sm font-semibold text-foreground">Kết Quả</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -194,17 +184,6 @@ export default function LeaderboardPage() {
                         </td>
                         <td className="px-6 py-4 text-center">
                           <span className="font-mono text-foreground/70">{formatTime(entry.timeInSeconds)}</span>
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          {entry.isVictory ? (
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                              🎉 Thắng
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-500/20 text-red-400 border border-red-500/30">
-                              💔 Thua
-                            </span>
-                          )}
                         </td>
                       </tr>
                     ))}
